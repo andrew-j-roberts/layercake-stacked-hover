@@ -1,9 +1,9 @@
 Layer Cake Example
 ===
 
-This is a starter example for using [Layer Cake](https://layercake.graphics).
+Example of doing a stacked area chart with a quadtree tooltip [per this issue](https://github.com/mhkeller/layercake.graphics/issues/29).
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+Here's [the diff](https://github.com/mhkeller/layercake-stacked-hover/commit/48a928a6097cd3e3e8786f46ba2f18684701b14e).
 
 ## Get started
 
