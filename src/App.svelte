@@ -51,11 +51,7 @@
 <div class="chart-container">
   <LayerCake
     padding={{ top: 0, right: 0, bottom: 20, left: 17 }}
-    x={d => {
-      console.log('d', d);
-      console.log('d data', d.data);
-      return d.data[xKey];
-    }}
+    x={d => d.data[xKey]}
     y={yKey}
     z={zKey}
     zScale={scaleOrdinal()}
