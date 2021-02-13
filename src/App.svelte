@@ -1,5 +1,5 @@
 <script>
-  import { LayerCake, Svg, flatten } from 'layercake';
+  import { LayerCake, Svg, Html, flatten } from 'layercake';
   import { stack } from 'd3-shape';
   import { scaleOrdinal } from 'd3-scale';
   import { format, precisionFixed } from 'd3-format';
@@ -8,6 +8,7 @@
   import AxisX from './components/AxisX.svelte';
   import AxisY from './components/AxisY.svelte';
   import AreaStacked from './components/AreaStacked.svelte';
+  import SharedTooltip from './components/SharedTooltip.svelte';
 
   // This example loads csv data as json using @rollup/plugin-dsv
   import data from './data/fruit.csv';
@@ -43,14 +44,18 @@
 <style>
   .chart-container {
     width: 100%;
-    height: 100%;
+    height: 250px;
   }
 </style>
 
 <div class="chart-container">
   <LayerCake
     padding={{ top: 0, right: 0, bottom: 20, left: 17 }}
-    x={d => d.data[xKey]}
+    x={d => {
+      console.log('d', d);
+      console.log('d data', d.data);
+      return d.data[xKey];
+    }}
     y={yKey}
     z={zKey}
     zScale={scaleOrdinal()}
@@ -61,6 +66,8 @@
   >
     <Svg>
       <AxisX
+        snapTicks={true}
+        ticks={data.map(d => d.month).reverse()}
         formatTick={formatTickX}
       />
       <AxisY
@@ -68,5 +75,12 @@
       />
       <AreaStacked/>
     </Svg>
+
+    <Html>
+      <SharedTooltip
+        formatTitle={formatTickX}
+        dataset={data}
+      />
+    </Html>
   </LayerCake>
 </div>

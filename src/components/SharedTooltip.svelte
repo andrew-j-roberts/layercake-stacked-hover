@@ -4,7 +4,7 @@
 
   import QuadTree from './QuadTree.svelte';
 
-  const { data, width, yScale, config } = getContext('LayerCake');
+  const { data, width, xScale, yScale, config } = getContext('LayerCake');
 
   const commas = format(',');
   const titleCase = d => d.replace(/^\w/, w => w.toUpperCase());
@@ -23,14 +23,14 @@
 	 * Sort the keys by the highest value
 	 */
   function sortResult(result) {
+    // return result;
     if (Object.keys(result).length === 0) return [];
-    const rows = Object.keys(result).filter(d => d !== $config.x).map(key => {
+    const rows = Object.keys(result).filter(d => d !== 'month').map(key => {
       return {
         key,
         value: result[key]
       };
     }).sort((a, b) => b.value - a.value);
-
     return rows;
   }
 </script>
@@ -69,6 +69,8 @@
 
 <QuadTree
   dataset={dataset || $data}
+  xGetter={d => $xScale(d.month)}
+  yGetter={d => $xScale(d.month)}
   y='x'
   let:x
   let:y
@@ -88,7 +90,7 @@
         top:{$yScale(sortResult(found)[0].value) - tooltipOffset}px;
         left:{Math.min(Math.max(w2, x), $width - w2)}px;"
       >
-        <div class="title">{formatTitle(found[$config.x])}</div>
+        <div class="title">{formatTitle(found.month)}</div>
         {#each sortResult(found) as row}
           <div class="row"><span class="key">{formatKey(row.key)}:</span> {formatValue(row.value)}</div>
         {/each}

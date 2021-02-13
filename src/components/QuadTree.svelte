@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 	import { quadtree } from 'd3-quadtree';
 
-	const { data, xGet, yGet, width, height } = getContext('LayerCake');
+	const { data, width, height } = getContext('LayerCake');
 
 	let visible = false;
 	let found = {};
@@ -13,14 +13,16 @@
 	export let y = 'y';
 	export let searchRadius = undefined;
 
-	$: xGetter = x === 'x' ? $xGet : $yGet;
-	$: yGetter = y === 'y' ? $yGet : $xGet;
+	export let xGetter = undefined;
+	export let yGetter = undefined;
 
 	function findItem (evt) {
 		e = evt;
 
 		const xLayerKey = `layer${x.toUpperCase()}`;
 		const yLayerKey = `layer${y.toUpperCase()}`;
+
+		console.log('e', e);
 
 		found = finder.find(evt[xLayerKey], evt[yLayerKey], searchRadius) || {};
 		visible = Object.keys(found).length > 0;
